@@ -8,10 +8,10 @@ import java.util.Date;
 
 public class Util {
 	
-	private static final String INVALID = "Error: the booking is invalid!";
-	private static final String ACCEPTED = "Success: the booking is accepted!";
-	private static final String CONFLICTS = "Error: the booking conflicts with existing bookings!";
-	private static final String CANCELLED = "Error: the booking being cancelled does not exist!";
+	public static final String INVALID = "Error: the booking is invalid!";
+	public static final String ACCEPTED = "Success: the booking is accepted!";
+	public static final String CONFLICTS = "Error: the booking conflicts with existing bookings!";
+	public static final String CANCELLED = "Error: the booking being cancelled does not exist!";
 	
 	public static int penaltyCalculate(int value, boolean isWeekday) {
 		if (isWeekday)
@@ -72,10 +72,19 @@ public class Util {
 	 *          true：工作日
 	 *          false：周末
 	 */
-	public static boolean isWeekday(String dateString) throws ParseException {
+	public static boolean isWeekday(String dateString) {
 		boolean dayType = false;
 		Calendar calendar = Calendar.getInstance();	
-        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+        Date date = null;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			return dayType;
+		}
+		if (date == null) {
+			return dayType;
+		}
         calendar.setTime(date);
 		switch (calendar.get(Calendar.DAY_OF_WEEK)) {
 		case Calendar.MONDAY:
@@ -146,5 +155,12 @@ public class Util {
     		return false;		
 		}
 		return true;
+	}
+	
+	public static boolean isReserve(int length) {
+		if (length == 4) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -1,6 +1,6 @@
 package main;
 
-public class Order {
+public class Order{
 	
 	String id;
 	String day;
@@ -11,7 +11,7 @@ public class Order {
 	boolean isReserve;
 	int money;
 	
-	public Order(String id, String day, String time, char court, boolean isReserve, int money) {
+	public Order(String id, String day, String time, char court, boolean isReserve) {
 		this.id = id;
 		this.day = day;
 		this.time = time;
@@ -19,7 +19,13 @@ public class Order {
 		this.endTime = Integer.parseInt(time.substring(6, 8));
 		this.court = court;
 		this.isReserve = isReserve;
-		this.money = money;
+		boolean isWeekday = Util.isWeekday(day);
+		int value = Util.valueCalculate(startTime, endTime, isWeekday);
+		if (isReserve) {
+			this.money = value;
+		} else {
+			this.money = Util.penaltyCalculate(value, isWeekday);
+		}		
 	}
 	
 	@Override

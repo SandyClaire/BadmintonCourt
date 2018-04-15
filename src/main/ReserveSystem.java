@@ -6,6 +6,7 @@ public class ReserveSystem {
 		
 	public static void main(String[] args) {		
 		
+		OrderList list = new OrderList();
 		Scanner scanner = new Scanner(System.in); 
 				
 		// 不断输入
@@ -13,24 +14,11 @@ public class ReserveSystem {
         	       
         	System.out.println("请输入预定信息： ");        	
         	String[] infos = scanner.nextLine().split(" ");
-        	if (Util.isInfoCorrect(infos)) {
-        		
-        		
-        		
-        		
-        		
-/*            	int startTime = Integer.parseInt(infos[2].substring(0, 1));
-            	int timeLast = Integer.parseInt(infos[2].substring(6, 7)) - startTime;
-            	for (int i = startTime; i < startTime + timeLast; i++) {
-    				
-    			}*/
-            	
-            	
-            	
-            	
-            	
-            	
-            	
+        	if (infos.length == 1 && infos[0].equalsIgnoreCase("")) {
+        		list.printTotal();                     	
+			} else if (Util.isInfoCorrect(infos)) {
+				Order order = new Order(infos[0], infos[1], infos[2], infos[3].charAt(0), Util.isReserve(infos.length));
+				list.addOrder(order);
 			}    	
         } 
 	}
