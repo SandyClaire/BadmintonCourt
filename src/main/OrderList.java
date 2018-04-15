@@ -8,53 +8,29 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class OrderList extends ArrayList<Order> {
-		
-   public void addOrder(Order order) {
-	   if (order.isReserve) {
-		    for (int i = 0; i < size(); i++) {
-                if (isReserveConflict(get(i), order)) {
-					System.out.println("" + Util.CONFLICTS);
+
+	public void addOrder(Order order) {
+		if (order.isReserve) {
+			for (int i = 0; i < size(); i++) {
+				if (get(i).isReserveConflict(order)) {
+					System.out.println("" + Const.CONFLICTS);
 					return;
 				}
 			}
-		    add(order);
-		    System.out.println("" + Util.ACCEPTED);
-	      } else {
+			add(order);
+			System.out.println("" + Const.ACCEPTED);
+		} else {
 			for (int i = 0; i < size(); i++) {
-	              if (isOrderExist(get(i), order)) {
+				if (get(i).isOrderExist(order)) {
 					remove(i);
 					add(order);
-					System.out.println("" + Util.ACCEPTED);
+					System.out.println("" + Const.ACCEPTED);
 					return;
-				}  
-		    }	
-			System.out.println("" + Util.CANCELLED);
-	   }
-   }
-   
-   private boolean isReserveConflict(Order order1, Order order2) {
-	   if (order1.court != order2.court || !order1.day.equalsIgnoreCase(order2.day) || !order1.isReserve) {
-		   return false;
-	   }
-	   int[] array = {order1.startTime, order1.endTime, order2.startTime, order2.endTime};
-	   Arrays.sort(array);
-	   if (array[1] == order1.endTime || array[1] == order2.endTime) {
-		return false;
-	}	   
-	   return true;
-   }
-   
-   private boolean isOrderExist(Order listOrder, Order order) {
-	   if (!listOrder.id.equalsIgnoreCase(order.id) || !listOrder.isReserve || listOrder.court !=order.court) {	
-		   System.out.println(listOrder.court);
-		   System.out.println(order.court);
-		   return false;
-	   }
-	   if (!listOrder.day.equalsIgnoreCase(order.day) || !listOrder.time.equalsIgnoreCase(order.time)) {
-		return false;
-	   }
-	   return true;
-   }   
+				}
+			}
+			System.out.println("" + Const.CANCELLED);
+		}
+	}
 
 	private int printCourt(char court) {
 		System.out.println("场地:" + court);
@@ -84,15 +60,17 @@ public class OrderList extends ArrayList<Order> {
 		System.out.println("---");
 		System.out.println("总计： " + value + "元");
 	}
-	
+
 	class OrderComparator implements Comparator<Order> {
 
 		@Override
 		public int compare(Order o1, Order o2) {
 			// TODO Auto-generated method stub
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-			String date1 = new StringBuilder(o1.day).append(" ").append(o1.time.substring(0, 5)).toString();
-			String date2 = new StringBuilder(o2.day).append(" ").append(o2.time.substring(0, 5)).toString();
+			String date1 = new StringBuilder(o1.day).append(" ")
+					.append(o1.time.substring(0, 5)).toString();
+			String date2 = new StringBuilder(o2.day).append(" ")
+					.append(o2.time.substring(0, 5)).toString();
 			long time1 = 0L;
 			long time2 = 0L;
 			try {
@@ -103,6 +81,6 @@ public class OrderList extends ArrayList<Order> {
 				return 0;
 			}
 			return (int) (time1 - time2);
-		}		
+		}
 	}
 }
