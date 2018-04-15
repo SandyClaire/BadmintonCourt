@@ -13,22 +13,22 @@ public class OrderList extends ArrayList<Order> {
 		if (order.isReserve) {
 			for (int i = 0; i < size(); i++) {
 				if (get(i).isReserveConflict(order)) {
-					System.out.println("" + Const.CONFLICTS);
+					System.out.println("" + Util.CONFLICTS);
 					return;
 				}
 			}
 			add(order);
-			System.out.println("" + Const.ACCEPTED);
+			System.out.println("" + Util.ACCEPTED);
 		} else {
 			for (int i = 0; i < size(); i++) {
 				if (get(i).isOrderExist(order)) {
 					remove(i);
 					add(order);
-					System.out.println("" + Const.ACCEPTED);
+					System.out.println("" + Util.ACCEPTED);
 					return;
 				}
 			}
-			System.out.println("" + Const.CANCELLED);
+			System.out.println("" + Util.CANCELLED);
 		}
 	}
 

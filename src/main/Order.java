@@ -22,12 +22,16 @@ public class Order {
 		this.endTime = Integer.parseInt(time.substring(6, 8));
 		this.court = court;
 		this.isReserve = isReserve;
-		boolean isWeekday = Const.isWeekday(day);
-		int value = Const.valueCalculate(startTime, endTime, isWeekday);
+        this.money = money(day, court, court, isReserve);
+	}
+	
+	private int money(String date, int startTime, int endTime, boolean isReserve) {
+		boolean isWeekday = Util.isWeekday(date);
+		int value = Util.valueCalculate(startTime, endTime, isWeekday);
 		if (isReserve) {
-			this.money = value;
+			return value;
 		} else {
-			this.money = Const.penaltyCalculate(value, isWeekday);
+			return Util.penaltyCalculate(value, isWeekday);
 		}
 	}
 
